@@ -1,3 +1,4 @@
+{% set python_min = '3.10' %}
 {% set name = "multiwebcam" %}
 {% set version = "0.1.2" %}
 
@@ -6,7 +7,7 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/multiwebcam-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/multiwebcam-{{ version }}.tar.gz
   sha256: b9ada8a298f7a6d5d88b164560018c056c71e5b6876a7f88c1b64ec909ef0542
 
 build:
@@ -14,15 +15,15 @@ build:
     - mwc = multiwebcam.__main__:CLI_parser
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  number: 0
+  number: 1
 
 requirements:
   host:
-    - python >=3.10,<3.13
+    - python {{ python_min }}
     - poetry-core
     - pip
   run:
-    - python >=3.10,<3.13
+    - python >={{ python_min }},<3.13
     - pyside6 >=6.6.1,<7.0.0
     - opencv >=4.8.1,<5.0.0
     - rtoml >=0.9.0,<0.10.0
@@ -35,6 +36,7 @@ test:
     - mwc --help
   requires:
     - pip
+    - python {{ python_min }}
 
 about:
   home: https://github.com/mprib/multiwebcam
